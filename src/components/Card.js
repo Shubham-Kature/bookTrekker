@@ -19,7 +19,7 @@ export default function Card(props) {
                 </div>}
             </div>
             <p className="more-info" onClick={setMainBookInfo}>
-                <span class="material-symbols-outlined">library_books</span>
+                <span className="material-symbols-outlined">library_books</span>
             </p>
         </div>
     );

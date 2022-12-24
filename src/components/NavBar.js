@@ -23,13 +23,17 @@ query GetBooksByCategory($category: String!) {
 export default function Navbar(props) {
     const navCategories = Object.keys(categories);
     const [fetchCategory, setFetchCategory] = React.useState(categories.Fiction);
-    const { error, data } = useQuery(getCategorySchema,{
+    const { error } = useQuery(getCategorySchema,{
         variables: {category: fetchCategory},
         onCompleted: (data) => {
           props?.setbooksData(data);
           data.getBooksByCategory && props?.setMainBook(data.getBooksByCategory[0]);
         }
     });
+
+    if (error) {
+      // TODO: add error and loading content
+    }
 
     return (
         <div className="primary-navbar">
