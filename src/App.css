@@ -262,6 +262,7 @@ body::-webkit-scrollbar {
   'descr'
   'links';
   grid-template-rows:3fr 2fr 1fr;
+  overflow: auto;
 }
 
 .mainModal-section .main-modal-meta {
