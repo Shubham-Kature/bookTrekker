@@ -7,34 +7,42 @@ import MainInfoDesktop from './components/MainInfoDesktop';
 import Sheet from 'react-modal-sheet';
 import MainBookModal from './components/MainBookModal';
 import { BooksContextConsumer } from './context/booksDataContext';
+import { MainBookConsumer } from './context/mainBookContext';
 
 function App() {
   return (
     <div className="App">
       <Header />
-      <BooksContextConsumer>
-        {booksobj => (<MainInfoDesktop mainBook={booksobj.mainBook}/>)}
-      </BooksContextConsumer>
-      <BooksContextConsumer>
-        {booksobj => (<NavBar setbooksData={booksobj.setBooksData} setSelectedCategory={booksobj.setSelectedCategory} selected_category={booksobj.selectedCategory} setMainBook={booksobj.setMainBook}/>)}
-      </BooksContextConsumer>
-      <BooksContextConsumer>
-        {booksobj => (<CardComponent booksData={booksobj.booksData} setMainBook={booksobj.setMainBook} setMainBookModal={booksobj.setMainBookModal}/>)}
-      </BooksContextConsumer>
+      
+      <MainBookConsumer>
+        {mainBookobj => (<MainInfoDesktop mainBook={mainBookobj.mainBook}/>)}
+      </MainBookConsumer>
+
       <BooksContextConsumer>
         {booksobj => (
-          <Sheet isOpen={booksobj.isMainBookModal && window.screen.width < 800} onClose={() => booksobj.setMainBookModal()}>
+          <MainBookConsumer>{mainBookobj => (
+            <NavBar setbooksData={booksobj.setBooksData} setMainBook={mainBookobj.setMainBook}/>
+          )}</MainBookConsumer>
+        )}
+      </BooksContextConsumer>
+
+      <BooksContextConsumer>
+        {booksobj => (<CardComponent booksData={booksobj.booksData}/>)}
+      </BooksContextConsumer>
+
+      <MainBookConsumer>
+        {mainBookobj => (
+          <Sheet isOpen={mainBookobj.ismainBookModal && window.screen.width < 800} onClose={() => mainBookobj.setMainBookModal()}>
             <Sheet.Container>
-              <Sheet.Header className='modal-header'/>
+              <Sheet.Header className='modalSheet-header'/>
                 <Sheet.Content>
-                  <MainBookModal mainBook={booksobj.mainBook}/>
+                  <MainBookModal mainBook={mainBookobj.mainBook}/>
                 </Sheet.Content>
               </Sheet.Container>
             <Sheet.Backdrop />
           </Sheet>
         )}
-      </BooksContextConsumer>
-      
+      </MainBookConsumer>
     </div>
   );
 }

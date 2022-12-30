@@ -20,14 +20,18 @@ query GetBooksByCategory($category: String!) {
   }
 `;
 
-export default function Navbar(props) {
+function Navbar(props) {
     const navCategories = Object.keys(categories);
-    const [fetchCategory, setFetchCategory] = React.useState(categories.Fiction);
+    const defaultCategory = categories.Fiction;
+    const [fetchCategory, setFetchCategory] = React.useState(defaultCategory);
+    const [selectedCategory, setSelectedCategory] = React.useState(defaultCategory);
     const { error } = useQuery(getCategorySchema,{
         variables: {category: fetchCategory},
         onCompleted: (data) => {
-          props?.setbooksData(data);
-          data.getBooksByCategory && props?.setMainBook(data.getBooksByCategory[0]);
+          if (data) {
+            props?.setbooksData(data);
+            data.getBooksByCategory && props?.setMainBook(data.getBooksByCategory[0]);
+          }
         }
     });
 
@@ -37,10 +41,12 @@ export default function Navbar(props) {
 
     return (
         <div className="primary-navbar">
-           {navCategories.map(category => {
-                return <NavButtons book_category={category} setCategory={() => setFetchCategory(categories[category])} {...props}/>
+           {navCategories.map((category, index) => {
+                return <NavButtons key={index} book_category={category} setCategory={() => setFetchCategory(categories[category])} getSelectedCategory = {selectedCategory} setSelectedCategory = {setSelectedCategory} />
             })}
         </div>
         
     );
 }
+
+export default React.memo(Navbar);

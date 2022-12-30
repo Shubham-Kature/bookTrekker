@@ -1,13 +1,13 @@
 import React from "react";
 
-export default function NavButtons(props) {
-
+export default function NavButtons({book_category, setCategory, getSelectedCategory, setSelectedCategory}) {
     const handleClick = () => {
-        props.setSelectedCategory(props.book_category);
-        props.setCategory();
+        setCategory();
+        setSelectedCategory(book_category);
     }
+
     return (
-        <p className={`category_link ${props.book_category === props.selected_category ? 'selected-category': ''}`} 
-                onClick={handleClick}>{props.book_category}</p>
+        <button className={`category_link ${book_category === getSelectedCategory ? 'selected-category': ''}`} 
+                onClick={handleClick}>{book_category}</button>
     );
 }

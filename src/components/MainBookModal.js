@@ -19,7 +19,7 @@ export default function MainBookModal(props) {
             </div>}
             <div className="buy-links">
                 {productLinks && productLinks.map(productLink => {
-                    return productLink.link && <a href={productLink.link} rel="noreferrer" target="_blank">{productLink.name}</a>
+                    return productLink.link && <a href={productLink.link} rel="noreferrer" target="_blank" key={productLink.name}>{productLink.name}</a>
                 })}
             </div>
         </div>

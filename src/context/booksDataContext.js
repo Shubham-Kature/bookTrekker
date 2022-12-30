@@ -5,40 +5,24 @@ const {Provider, Consumer} = React.createContext();
 class BooksContextProvider extends React.Component {
     state = {
         booksData: {},
-        selected_cat: 'Fiction',
         mainBook: {},
         ismainBookModal: false
     }
 
-    setBooksData = (data) => {
+    setBooksData = (newBookData) => {
         this.setState(prevState => {
             return {
-                booksData: data,
-                selected_cat: prevState.selected_cat,
-                mainBook: prevState.mainBook,
-                ismainBookModal: prevState.ismainBookModal,
+                ...prevState,
+                booksData: newBookData,
             };
         });
     }
 
-    setSelectedCategory = (category) => {
+    setMainBook = (newBook) => {
         this.setState(prevState => {
             return {
-                selected_cat: category,
-                booksData: prevState.booksData,
-                mainBook: prevState.mainBook,
-                ismainBookModal: prevState.ismainBookModal,
-            }
-        });
-    }
-
-    setMainBook = (book) => {
-        this.setState(prevState => {
-            return {
-                selected_cat: prevState.selected_cat,
-                booksData: prevState.booksData,
-                mainBook: book,
-                ismainBookModal: prevState.ismainBookModal,
+                ...prevState,
+                mainBook: newBook,
             }
         });
     }
@@ -46,9 +30,7 @@ class BooksContextProvider extends React.Component {
     setMainBookModal = () => {
         this.setState(prevState => {
             return {
-                selected_cat: prevState.selected_cat,
-                booksData: prevState.booksData,
-                mainBook: prevState.mainBook,
+                ...prevState,
                 ismainBookModal: !prevState.ismainBookModal,
             }
         });
@@ -56,7 +38,7 @@ class BooksContextProvider extends React.Component {
 
     render() {
         return (
-            <Provider value={{booksData: this.state.booksData, setBooksData: this.setBooksData, setSelectedCategory: this.setSelectedCategory, selectedCategory:this.state.selected_cat, mainBook: this.state.mainBook, setMainBook: this.setMainBook, isMainBookModal: this.state.ismainBookModal, setMainBookModal: this.setMainBookModal}}>
+            <Provider value={{booksData: this.state.booksData, setBooksData: this.setBooksData, mainBook: this.state.mainBook, setMainBook: this.setMainBook, isMainBookModal: this.state.ismainBookModal, setMainBookModal: this.setMainBookModal}}>
                 {this.props.children}
             </Provider>
         );
